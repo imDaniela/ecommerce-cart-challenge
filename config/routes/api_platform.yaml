@@ -1,4 +1,4 @@
 api_platform:
-    resource: .
-    type: api_platform
+    resource: ../../src/Cart/Infrastructure/Controller/
+    type: attribute
     prefix: /api
