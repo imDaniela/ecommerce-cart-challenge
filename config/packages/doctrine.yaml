@@ -8,6 +8,13 @@ doctrine:
 
         profiling_collect_backtrace: '%kernel.debug%'
         use_savepoints: true
+        types:
+            username_vo: App\Cart\Infrastructure\ORM\Type\UsernameType
+            cantidad_vo: App\Cart\Infrastructure\ORM\Type\CantidadType
+            product_id_vo: App\Cart\Infrastructure\ORM\Type\ProductIdType
+            orden_id_vo: App\Cart\Infrastructure\ORM\Type\OrdenIdType
+            product_name_vo: App\Cart\Infrastructure\ORM\Type\ProductNameType
+            product_price_vo: App\Cart\Infrastructure\ORM\Type\ProductPriceType
     orm:
         auto_generate_proxy_classes: true
         enable_lazy_ghost_objects: true
@@ -24,6 +31,12 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Entity'
                 prefix: 'App\Entity'
                 alias: App
+
+            CartDomainModel:
+                is_bundle: false
+                dir: '%kernel.project_dir%/src/Cart/Domain/Model'
+                prefix: 'App\Cart\Domain\Model'
+                alias: CartDomainModel
         controller_resolver:
             auto_mapping: false
 
