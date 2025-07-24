@@ -17,4 +17,15 @@ class DoctrineOrdenItemRepository implements OrdenItemRepository
         $this->entityManager->persist($ordenItem);
         $this->entityManager->flush();
     }
+
+    public function findById(int $id): ?OrdenItem
+    {
+        return $this->entityManager->getRepository(OrdenItem::class)->find($id);
+    }
+
+    public function delete(OrdenItem $ordenItem): void
+    {
+        $this->entityManager->remove($ordenItem);
+        $this->entityManager->flush();
+    }
 }

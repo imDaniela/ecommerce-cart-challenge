@@ -5,13 +5,12 @@ namespace App\Cart\Domain\Model;
 use App\Cart\Domain\ValueObject\Cantidad;
 use App\Cart\Domain\ValueObject\OrdenId;
 use App\Cart\Domain\ValueObject\ProductoId;
-use App\Repository\OrdenItemRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: OrdenItemRepository::class)]
+#[ORM\Entity]
 class OrdenItem
 {
-   #[ORM\Id]
+    #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     #[ORM\Column(type: 'integer')]
     private ?int $id = null;

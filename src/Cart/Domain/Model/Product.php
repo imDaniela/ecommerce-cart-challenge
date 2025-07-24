@@ -4,15 +4,14 @@ namespace App\Cart\Domain\Model;
 
 use App\Cart\Domain\ValueObject\ProductName;
 use App\Cart\Domain\ValueObject\ProductPrice;
-use App\Repository\ProductRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: ProductRepository::class)]
+#[ORM\Entity]
 class Product
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[ORM\Column(type: 'integer')]
     private ?int $id = null;
 
     #[ORM\Column(type: 'product_name_vo')]
