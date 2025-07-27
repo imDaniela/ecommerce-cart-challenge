@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Messenger\MessageBusInterface;
 use App\Cart\Application\Command\CreateOrdenCommand;
+use Symfony\Component\Messenger\Stamp\HandledStamp;
 
 final class OrdenController extends AbstractController
 {
@@ -26,9 +27,11 @@ final class OrdenController extends AbstractController
         }
 
         $command = new CreateOrdenCommand($username);
-        $bus->dispatch($command);
-
-        return new JsonResponse(['success' => 'Orden creada'], 201);
+        $envelope = $bus->dispatch($command);
+        /** @var HandledStamp $handled */
+        $handled = $envelope->last(HandledStamp::class);
+        $orden = $handled?->getResult();
+        return new JsonResponse(['success' => 'Orden creada', 'data' => $orden], 201);
     }
 
     #[Route('/orden/{id}', name: 'orden_show', methods: ['GET'])]
