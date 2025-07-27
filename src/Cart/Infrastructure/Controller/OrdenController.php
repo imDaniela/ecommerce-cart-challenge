@@ -2,6 +2,7 @@
 
 namespace App\Cart\Infrastructure\Controller;
 
+use App\Cart\Application\Command\SetOrdenAsPagadaCommand;
 use App\Cart\Application\Query\GetOrdenByIdQuery;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -41,5 +42,19 @@ final class OrdenController extends AbstractController
         $orden = $bus->dispatch($query);
 
         return $this->json(['success' => 'Orden encontrada', 'data' => $orden]);
+    }
+
+    #[Route('/orden/{id}/checkout', name: 'set_orden_as_pagada', methods: ['GET'])]
+    public function setOrdenAsPagada($id, MessageBusInterface $bus): JsonResponse
+    {
+        if (!$id) {
+            return new JsonResponse(['error' => 'ID es obligatorio'], 400);
+        }
+
+
+        $command = new SetOrdenAsPagadaCommand($id);
+        $bus->dispatch($command);
+
+        return new JsonResponse(['success' => 'Orden marcada como pagada'], 200);
     }
 }

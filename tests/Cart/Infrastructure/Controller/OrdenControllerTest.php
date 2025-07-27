@@ -28,4 +28,12 @@ final class OrdenControllerTest extends WebTestCase
 
         self::assertResponseIsSuccessful();
     }
+
+    public function testSetOrdenAsPagada(): void
+    {
+        $client = static::createClient();
+        $client->request('GET', '/api/orden/1/checkout');
+
+        self::assertResponseStatusCodeSame(200);
+    }
 }
