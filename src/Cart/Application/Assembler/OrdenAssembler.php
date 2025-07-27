@@ -24,4 +24,15 @@ class OrdenAssembler
             (bool) $dto->pagado
         );
     }
+
+    public function fromEntity(Orden $orden): OrdenDTO
+    {
+        $dto = new OrdenDTO();
+        $dto->id = $orden->getId()->getValue();
+        $dto->username = $orden->getUsername()->getValue();
+        $dto->pagado = $orden->getPagado();
+
+        return $dto;
+    }
+
 }
