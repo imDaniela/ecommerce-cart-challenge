@@ -28,7 +28,7 @@ class Orden
         $this->pagado = $pagado;
     }
 
-    public function getId(): int|null
+    public function getId(): OrdenId
     {
         return $this->id;
     }
