@@ -2,6 +2,7 @@
 
 namespace App\Cart\Domain\Model;
 
+use App\Cart\Domain\ValueObject\OrdenId;
 use App\Cart\Domain\ValueObject\Username;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -10,9 +11,8 @@ class Orden
 {   
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
-    #[ORM\Column(type: 'integer')]
-    // private ?OrdenId $id;
-    private ?int $id = null;
+    #[ORM\Column(type: 'orden_id_vo')]
+    private ?OrdenId $id = null;
 
     #[ORM\Column(type: 'username_vo', length: 100)]
     #[ORM\JoinColumn(name: 'username', referencedColumnName: 'username')]
