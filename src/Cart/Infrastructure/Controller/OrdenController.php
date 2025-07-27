@@ -3,6 +3,7 @@
 namespace App\Cart\Infrastructure\Controller;
 
 use App\Cart\Application\Command\SetOrdenAsPagadaCommand;
+use App\Cart\Application\Command\UpdateOrdenCommand;
 use App\Cart\Application\Query\GetOrdenByIdQuery;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -45,6 +46,29 @@ final class OrdenController extends AbstractController
         $orden = $bus->dispatch($query);
 
         return $this->json(['success' => 'Orden encontrada', 'data' => $orden]);
+    }
+
+    #[Route('/orden/{id}', name: 'update_orden', methods: ['PUT'])]
+    public function update($id, Request $request, MessageBusInterface $bus): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+        $username = $data['username'];
+
+        if (!$id) {
+            return new JsonResponse(['error' => 'ID es obligatorio'], 400);
+        }
+
+        if (!$username) {
+            return new JsonResponse(['error' => 'Username es obligatorio'], 400);
+        }
+        
+        $command = new UpdateOrdenCommand($id, $username);
+        $envelope = $bus->dispatch($command);
+        /** @var HandledStamp $handled */
+        $handled = $envelope->last(HandledStamp::class);
+        $orden = $handled?->getResult();
+
+        return new JsonResponse(['success' => 'Orden actualizada con éxito', 'data' => $orden], 200);
     }
 
     #[Route('/orden/{id}/checkout', name: 'set_orden_as_pagada', methods: ['GET'])]

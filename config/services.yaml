@@ -22,6 +22,9 @@ services:
     App\Cart\Application\Handler\CreateOrdenHandler:
         tags: [{ name: 'messenger.message_handler' }]
 
+    App\Cart\Application\Handler\UpdateOrdenHandler:
+        tags: [{ name: 'messenger.message_handler' }]
+
     App\Cart\Application\Handler\CreateOrdenItemHandler:
         tags: [{ name: 'messenger.message_handler' }]
 
