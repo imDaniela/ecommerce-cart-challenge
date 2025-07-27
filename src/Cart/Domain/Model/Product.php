@@ -3,6 +3,7 @@
 namespace App\Cart\Domain\Model;
 
 use App\Cart\Domain\ValueObject\ProductName;
+use App\Cart\Domain\ValueObject\ProductoId;
 use App\Cart\Domain\ValueObject\ProductPrice;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -11,8 +12,8 @@ class Product
 {
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
-    #[ORM\Column(type: 'integer')]
-    private ?int $id = null;
+    #[ORM\Column(type: 'product_id_vo')]
+    private ?ProductoId $id = null;
 
     #[ORM\Column(type: 'product_name_vo')]
     #[ORM\JoinColumn(name: 'nombre', referencedColumnName: 'nombre')]
@@ -21,6 +22,13 @@ class Product
     #[ORM\Column(type: 'product_price_vo', precision: 10, scale: 2)]
     #[ORM\JoinColumn(name: 'precio', referencedColumnName: 'precio')]
     private ?ProductPrice $precio = null;
+
+    public function __construct(?ProductoId $id = null, ?ProductName $nombre = null, ?ProductPrice $precio = null)
+    {
+        $this->id = $id;
+        $this->nombre = $nombre;
+        $this->precio = $precio;
+    }
 
     public function getId(): ?int
     {
