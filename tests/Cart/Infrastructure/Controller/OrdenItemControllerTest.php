@@ -20,6 +20,16 @@ final class OrdenItemControllerTest extends WebTestCase
         self::assertResponseStatusCodeSame(201);
     }
 
+    public function testFindByOrdenId(): void
+    {
+        $client = static::createClient();
+        $client->request('GET', '/api/orden/1/items');
+
+        self::assertResponseStatusCodeSame(200);
+        $responseContent = $client->getResponse()->getContent();
+        self::assertJson($responseContent);
+    }
+
     public function testUpdate(): void
     {
         $client = static::createClient();

@@ -4,12 +4,14 @@ namespace App\Cart\Infrastructure\Controller;
 
 use App\Cart\Application\Command\DeleteOrdenItemCommand;
 use App\Cart\Application\Command\UpdateOrdenItemCommand;
+use App\Cart\Application\Query\GetOrdenItemByOrdenIdQuery;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Messenger\MessageBusInterface;
 use App\Cart\Application\Command\CreateOrdenItemCommand;
+use Symfony\Component\Messenger\Stamp\HandledStamp;
 
 final class OrdenItemController extends AbstractController
 {
@@ -31,7 +33,23 @@ final class OrdenItemController extends AbstractController
         return new JsonResponse(['success' => 'Se ha añadido el item a la orden'], 201);
     }
 
-     #[Route('/orden/item/{id}', name: 'update_orden_item', methods: ['PUT'])]
+    #[Route('/orden/{id_orden}/items', name: 'find_orden_items_by_id_orden', methods: ['GET'])]
+    public function findByOrdenId(int $id_orden, MessageBusInterface $bus): JsonResponse
+    {
+        $query = new GetOrdenItemByOrdenIdQuery($id_orden);
+        $envelope = $bus->dispatch($query);
+        /** @var HandledStamp $handled */
+        $handled = $envelope->last(HandledStamp::class);
+        $ordenItems = $handled?->getResult();
+
+        if (empty($ordenItems)) {
+            return new JsonResponse(['error' => 'Orden vacía'], 404);
+        }
+
+        return new JsonResponse($ordenItems, 200);
+    }
+
+    #[Route('/orden/item/{id}', name: 'update_orden_item', methods: ['PUT'])]
     public function update(int $id, Request $request, MessageBusInterface $bus): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
