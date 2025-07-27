@@ -10,7 +10,7 @@ class UsernameType extends Type
 {
     public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
     {
-        return 'VARCHAR(100)'; // Define the SQL type for the username
+        return 'VARCHAR(255)'; // Define the SQL type for the username
     }
 
     public function convertToPHPValue($value, AbstractPlatform $platform)
