@@ -7,4 +7,5 @@ interface OrdenRepository
 {
     public function save(Orden $orden): void;
     public function findById(OrdenId $id): ?Orden;
+    public function setAsPagada(Orden $orden): void;
 }

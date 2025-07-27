@@ -22,4 +22,12 @@ class DoctrineOrdenRepository implements OrdenRepository
     {
         return $this->entityManager->getRepository(Orden::class)->find($id);
     }
+
+    public function setAsPagada(Orden $orden): void
+    {
+        $orden->setPagado(true);
+
+        // TODO: Implementar lógica para manejar el pago de la orden
+        $this->save($orden);
+    }
 }
