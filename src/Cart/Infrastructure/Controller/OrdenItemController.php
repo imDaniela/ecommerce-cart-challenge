@@ -28,9 +28,12 @@ final class OrdenItemController extends AbstractController
         }
 
         $command = new CreateOrdenItemCommand($productId, $ordenId,  $quantity);
-        $bus->dispatch($command);
+        $envelope = $bus->dispatch($command);
+        /** @var HandledStamp $handled */
+        $handled = $envelope->last(HandledStamp::class);
+        $ordenItems = $handled?->getResult();
 
-        return new JsonResponse(['success' => 'Se ha añadido el item a la orden'], 201);
+        return new JsonResponse(['success' => 'Se ha añadido el item a la orden', 'data' => $ordenItems], 201);
     }
 
     #[Route('/orden/{id_orden}/items', name: 'find_orden_items_by_id_orden', methods: ['GET'])]

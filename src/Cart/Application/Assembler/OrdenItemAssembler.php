@@ -48,6 +48,7 @@ class OrdenItemAssembler
         $dto->id = $ordenItem->getId();
         $dto->id_producto = $idProducto;
         $dto->nombre_producto = $nombreProducto;
+        $dto->precio = $producto ? $producto->getPrecio()->getValue() : 0;
         $dto->id_orden = $ordenItem->getIdOrden()->getValue();
         $dto->cantidad = $ordenItem->getCantidad()->getValue();
 

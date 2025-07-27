@@ -6,7 +6,7 @@ use App\Cart\Domain\ValueObject\OrdenId;
 
 interface OrdenItemRepository
 {
-    public function save(OrdenItem $ordenItem): void;
+    public function save(OrdenItem $ordenItem): ?OrdenItem;
 
     public function findById(int $id): ?OrdenItem;
 

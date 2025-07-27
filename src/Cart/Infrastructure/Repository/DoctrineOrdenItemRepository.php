@@ -13,10 +13,12 @@ class DoctrineOrdenItemRepository implements OrdenItemRepository
     {
         $this->entityManager = $entityManager;
     }
-    public function save(OrdenItem $ordenItem): void
+    public function save(OrdenItem $ordenItem): ?OrdenItem
     {
         $this->entityManager->persist($ordenItem);
         $this->entityManager->flush();
+
+        return $ordenItem;
     }
 
     public function findById(int $id): ?OrdenItem
