@@ -30,7 +30,7 @@ class Product
         $this->precio = $precio;
     }
 
-    public function getId(): ?int
+    public function getId(): ?ProductoId
     {
         return $this->id;
     }

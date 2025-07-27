@@ -18,4 +18,9 @@ class DoctrineProductRepository implements ProductRepository
     {
         return $this->entityManager->getRepository(Product::class)->find($id);
     }
+
+    public function findAll(): array
+    {
+        return $this->entityManager->getRepository(Product::class)->findAll();
+    }
 }

@@ -44,6 +44,9 @@ services:
     App\Cart\Application\Handler\GetProductByIdHandler:
         tags: [{ name: 'messenger.message_handler' }]
 
+    App\Cart\Application\Handler\GetProductsHandler:
+        tags: [{ name: 'messenger.message_handler' }]
+
         
 
 

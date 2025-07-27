@@ -26,4 +26,14 @@ class ProductAssembler
             new ProductPrice($dto->precio)
         );
     }
+
+    public function fromEntity(Product $product): ProductDTO
+    {
+        $dto = new ProductDTO();
+        $dto->id = $product->getId()->getValue();
+        $dto->nombre = $product->getNombre()->getValue();
+        $dto->precio = $product->getPrecio()->getValue();
+
+        return $dto;
+    }
 }
