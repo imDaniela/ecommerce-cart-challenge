@@ -31,8 +31,17 @@ services:
     App\Cart\Application\Handler\DeleteOrdenItemHandler:
         tags: [{ name: 'messenger.message_handler' }]
 
+    App\Cart\Application\Handler\SetOrdenAsPagadaHandler:
+        tags: [{ name: 'messenger.message_handler' }]
+
     # Handlers for Queries
     App\Cart\Application\Handler\GetOrdenByIdHandler:
+        tags: [{ name: 'messenger.message_handler' }]
+
+    App\Cart\Application\Handler\GetOrdenItemByOrdenIdHandler:
+        tags: [{ name: 'messenger.message_handler' }]
+
+    App\Cart\Application\Handler\GetProductByIdHandler:
         tags: [{ name: 'messenger.message_handler' }]
 
         
