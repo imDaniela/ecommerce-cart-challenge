@@ -49,12 +49,12 @@ final class OrdenController extends AbstractController
     }
 
     #[Route('/orden/{id}', name: 'update_orden', methods: ['PUT'])]
-    public function update($id, Request $request, MessageBusInterface $bus): JsonResponse
+    public function update(?int $id, Request $request, MessageBusInterface $bus): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
         $username = $data['username'];
 
-        if (!$id) {
+        if ($id === null) {
             return new JsonResponse(['error' => 'ID es obligatorio'], 400);
         }
 
@@ -71,13 +71,12 @@ final class OrdenController extends AbstractController
         return new JsonResponse(['success' => 'Orden actualizada con éxito', 'data' => $orden], 200);
     }
 
-    #[Route('/orden/{id}/checkout', name: 'set_orden_as_pagada', methods: ['GET'])]
-    public function setOrdenAsPagada($id, MessageBusInterface $bus): JsonResponse
+    #[Route('/orden/{id}/checkout', name: 'set_orden_as_pagada', methods: ['POST'])]
+    public function setOrdenAsPagada(?int $id, MessageBusInterface $bus): JsonResponse
     {
-        if (!$id) {
+        if ($id === null) {
             return new JsonResponse(['error' => 'ID es obligatorio'], 400);
         }
-
 
         $command = new SetOrdenAsPagadaCommand($id);
         $bus->dispatch($command);

@@ -6,11 +6,14 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 final class ProductControllerTest extends WebTestCase
 {
-    public function testIndex(): void
+    public function testList(): void
     {
         $client = static::createClient();
-        $client->request('GET', '/products');
+        $client->request('GET', '/api/products');
 
+        $responseContent = $client->getResponse()->getContent();
+
+        self::assertNotEmpty($responseContent);
         self::assertResponseIsSuccessful();
     }
 }

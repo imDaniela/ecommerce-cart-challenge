@@ -46,15 +46,19 @@ final class OrdenItemController extends AbstractController
         $ordenItems = $handled?->getResult();
 
         if (empty($ordenItems)) {
-            return new JsonResponse(['error' => 'Orden vacía'], 404);
+            return new JsonResponse(['error' => 'Orden vacía'], 400);
         }
 
         return new JsonResponse($ordenItems, 200);
     }
 
     #[Route('/orden/item/{id}', name: 'update_orden_item', methods: ['PUT'])]
-    public function update(int $id, Request $request, MessageBusInterface $bus): JsonResponse
+    public function update(?int $id, Request $request, MessageBusInterface $bus): JsonResponse
     {
+        if ($id === null) {
+            return new JsonResponse(['error' => 'ID es obligatorio'], 400);
+        }
+
         $data = json_decode($request->getContent(), true);
         $ordenId = $data['id_orden'] ?? null;
         $productId = $data['id_producto'] ?? null;
@@ -71,8 +75,12 @@ final class OrdenItemController extends AbstractController
     }
 
     #[Route('/orden/item/{id}', name: 'delete_orden_item', methods: ['DELETE'])]
-    public function delete(int $id, MessageBusInterface $bus): JsonResponse
+    public function delete(?int $id, MessageBusInterface $bus): JsonResponse
     {
+        if ($id === null) {
+            return new JsonResponse(['error' => 'ID es obligatorio'], 400);
+        }
+
         $command = new DeleteOrdenItemCommand($id);
         $bus->dispatch($command);
         return new JsonResponse(['success' => 'Item eliminado de la orden'], 200);
