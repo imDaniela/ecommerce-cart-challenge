@@ -216,8 +216,8 @@ final class OrdenController extends AbstractController
         return new JsonResponse(['success' => 'Orden actualizada con éxito', 'data' => $orden], 200);
     }
 
-    #[Route('/orden/{id}/checkout', name: 'set_orden_as_pagada', methods: ['GET'])]
-    #[OA\Get(
+    #[Route('/orden/{id}/checkout', name: 'set_orden_as_pagada', methods: ['POST'])]
+    #[OA\Post(
         summary: 'Marcar una orden como pagada',
         parameters: [
             new OA\Parameter(
