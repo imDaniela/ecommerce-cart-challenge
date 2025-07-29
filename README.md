@@ -9,10 +9,10 @@ La documentación de la API fue generada utilizando NelmioApiDocBundle, que perm
 Puedes acceder a la especificación de la API de las siguientes maneras:
 
 - UI interactiva (Swagger):
-    - http://localhost/api/doc
+    - https://localhost/api/doc
 
 - Documento JSON OpenAPI:
-    - http://localhost/api/doc.json
+    - https://localhost/api/doc.json
 
 ## Modelado del Dominio
 El dominio está diseñado bajo los principios de DDD y Arquitectura Hexagonal, incluyendo:
