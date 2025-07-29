@@ -19,17 +19,33 @@ final class Version20250724180047 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('CREATE TABLE orden (id INT AUTO_INCREMENT NOT NULL, username VARCHAR(255) NOT NULL, pagado TINYINT(1) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE orden_item (id INT AUTO_INCREMENT NOT NULL, id_producto INT NOT NULL, id_orden INT NOT NULL, cantidad INT NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE product (id INT AUTO_INCREMENT NOT NULL, nombre VARCHAR(100) NOT NULL, precio NUMERIC(10, 2) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        // PostgreSQL no usa AUTO_INCREMENT, sino SERIAL o GENERATED
+        $this->addSql('CREATE TABLE orden (
+            id SERIAL PRIMARY KEY,
+            username VARCHAR(255) NOT NULL,
+            pagado BOOLEAN NOT NULL
+        )');
+
+        $this->addSql('CREATE TABLE product (
+            id SERIAL PRIMARY KEY,
+            nombre VARCHAR(100) NOT NULL,
+            precio NUMERIC(10, 2) NOT NULL
+        )');
+
+        $this->addSql('CREATE TABLE orden_item (
+            id SERIAL PRIMARY KEY,
+            id_producto INT NOT NULL,
+            id_orden INT NOT NULL,
+            cantidad INT NOT NULL,
+            CONSTRAINT fk_producto FOREIGN KEY (id_producto) REFERENCES product (id) ON DELETE CASCADE,
+            CONSTRAINT fk_orden FOREIGN KEY (id_orden) REFERENCES orden (id) ON DELETE CASCADE
+        )');
     }
 
     public function down(Schema $schema): void
     {
-        // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('DROP TABLE orden');
-        $this->addSql('DROP TABLE orden_item');
-        $this->addSql('DROP TABLE product');
+        $this->addSql('DROP TABLE IF EXISTS orden_item');
+        $this->addSql('DROP TABLE IF EXISTS product');
+        $this->addSql('DROP TABLE IF EXISTS orden');
     }
 }
