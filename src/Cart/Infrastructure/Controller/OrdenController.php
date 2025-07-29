@@ -16,7 +16,6 @@ use OpenApi\Attributes as OA;
 
 final class OrdenController extends AbstractController
 {
-    
     #[Route('/orden', name: 'create_orden', methods: ['POST'])]
     #[OA\Post(
         summary: 'Crear nueva orden',
